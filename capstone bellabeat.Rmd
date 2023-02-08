@@ -1,0 +1,386 @@
+---
+title: "Bellabeat-Dataset study"
+author: "Ahmed Hassan"
+date: "2023-02-06"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1. Summary 
+![](data:image/jpeg;base64,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)
+
+Bellabeat is a high-tech company that manufactures health-focused smart products.They offer different smart devices that collect data on activity, sleep, stress, and reproductive health to empower women with knowledge about their own health and habits. 
+
+The main focus of this case is to analyze smart devices fitness data and determine how it could help unlock new growth opportunities for Bellabeat. We will focus on one of Bellabeat’s products: Bellabeat app.
+
+The Bellabeat app provides users with health data related to their activity, sleep, stress, menstrual cycle, and mindfulness habits. This data can help users better understand their current habits and make healthy decisions. The Bellabeat app connects to their line of smart wellness products.
+
+Link to the company's website [Bellabeat.com](https://bellabeat.com/).
+
+
+## 2. Ask Phase
+### 2.1 Business Task 
+
+Identify trends in how consumers use non-Bellabeat smart devices to apply insights into Bellabeat’s marketing strategy.
+
+**Stakeholders**
+
+- Urška Sršen - Bellabeat co-founder and Chief Creative Officer.
+- Sando Mur - Bellabeat co-founder and key member of Bellabeat executive team.
+- Bellabeat Marketing Analytics team.
+
+## 3. Prepare Phase
+First we will choose the packages that will help us on our analysis and open them. We will use the following packages for our analysis:
+
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)
+library(lubridate)
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+library(janitor)
+library(skimr)
+library(here)
+```
+
+
+### 3.1 Dataset used: 
+The data source used for our case study is [FitBit Fitness Tracker Data](https://www.kaggle.com/datasets/arashnic/fitbit). This dataset is stored in Kaggle and was made available through Mobius.
+
+### 3.2 Accessibility and privacy of data: 
+Verifying the metadata of our dataset we can confirm it is open-source.
+
+Now we import our data set :
+```{r message=FALSE, warning=FALSE}
+activity <- read.csv("C:/Users/Ahmed/OneDrive/Desktop/Work/Fitabase Data 4.12.16-5.12.16/dailyActivity_merged.csv")
+calories_d <- read.csv("C:/Users/Ahmed/OneDrive/Desktop/Work/Fitabase Data 4.12.16-5.12.16/dailyCalories_merged.csv")
+intensities_d <- read.csv("C:/Users/Ahmed/OneDrive/Desktop/Work/Fitabase Data 4.12.16-5.12.16/dailyIntensities_merged.csv")
+steps_d <- read.csv("C:/Users/Ahmed/OneDrive/Desktop/Work/Fitabase Data 4.12.16-5.12.16/dailySteps_merged.csv")
+heart_rate <- read.csv("C:/Users/Ahmed/OneDrive/Desktop/Work/Fitabase Data 4.12.16-5.12.16/heartrate_seconds_merged.csv")
+calories_h <- read.csv("C:/Users/Ahmed/OneDrive/Desktop/Work/Fitabase Data 4.12.16-5.12.16/hourlyCalories_merged.csv")
+intensities_h <- read.csv("C:/Users/Ahmed/OneDrive/Desktop/Work/Fitabase Data 4.12.16-5.12.16/hourlyIntensities_merged.csv")
+steps_h <- read.csv("C:/Users/Ahmed/OneDrive/Desktop/Work/Fitabase Data 4.12.16-5.12.16/hourlySteps_merged.csv")
+sleep_d <- read.csv("C:/Users/Ahmed/OneDrive/Desktop/Work/Fitabase Data 4.12.16-5.12.16/sleepDay_merged.csv")
+weight <- read.csv("C:/Users/Ahmed/OneDrive/Desktop/Work/Fitabase Data 4.12.16-5.12.16/weightLogInfo_merged.csv")
+
+```
+
+
+### 3.3 Information about our dataset:
+These datasets were generated by respondents to a distributed survey via Amazon Mechanical Turk between 03.12.2016-05.12.2016. Thirty eligible Fitbit users consented to the submission of personal tracker data, including minute-level output for physical activity, heart rate, and sleep monitoring. Variation between output represents use of different types of Fitbit trackers and individual tracking behaviors / preferences.
+
+### 3.4 Data Credibility and Integrity:
+Due to the limitation of size (30 users) and not having any demographic information we could encounter a sampling bias. We are not sure if the sample is representative of the population as a whole. Another problem we would encounter is that the dataset is not current and also the time limitation of the survey (2 months long). That is why we will give our case study an operational approach.
+
+### 3.5 Cleaning our Data
+- **Detecting duplicates**
+```{r}
+sum(duplicated(activity))
+sum(duplicated(calories_d))
+sum(duplicated(calories_h))
+sum(duplicated(heart_rate))
+sum(duplicated(sleep_d))
+sum(duplicated(intensities_d))
+sum(duplicated(intensities_h))
+sum(duplicated(steps_d))
+sum(duplicated(steps_h))
+sum(duplicated(weight))
+```
+- **Removing duplicates and Nulls**
+```{r}
+activity <- activity %>%
+  distinct() %>%
+  drop_na()
+
+sleep_d <- sleep_d %>%
+  distinct() %>%
+  drop_na()
+
+steps_h <- steps_h %>%
+  distinct() %>%
+  drop_na()
+
+steps_d <- steps_d %>%
+  distinct() %>%
+  drop_na()
+
+calories_d <- calories_d %>%
+  distinct() %>%
+  drop_na()
+
+calories_d <- calories_d %>%
+  distinct() %>%
+  drop_na()
+
+heart_rate <- heart_rate %>%
+  distinct() %>%
+  drop_na()
+
+intensities_d <- intensities_d %>%
+  distinct() %>%
+  drop_na()
+
+intensities_h<- intensities_h %>%
+  distinct() %>%
+  drop_na()
+```
+- **cleaning names and labels**
+```{r message=FALSE, warning=FALSE, include=TRUE,echo=TRUE, paged.print=FALSE, results='hide'}
+clean_names(activity)
+activity<- rename_with(activity, tolower)
+clean_names(sleep_d)
+sleep_d <- rename_with(sleep_d, tolower)
+clean_names(steps_h)
+steps_h <- rename_with(steps_h, tolower)
+clean_names(steps_d)
+steps_d <- rename_with(steps_d, tolower)
+clean_names(calories_h)
+calories_h <- rename_with(calories_h, tolower)
+clean_names(calories_d)
+calories_d <- rename_with(calories_d, tolower)
+clean_names(intensities_d)
+intensities_d <- rename_with(intensities_d, tolower)
+clean_names(intensities_h)
+intensities_h <- rename_with(intensities_h, tolower)
+clean_names(heart_rate)
+heart_rate <- rename_with(heart_rate, tolower)
+clean_names(weight)
+weight <- rename_with(weight, tolower)
+```
+- **Fixing some formats in this case transforming dates from Character format to date and date time**
+
+**Activity**
+```{r Activity, message=FALSE, warning=FALSE, paged.print=FALSE, include=TRUE}
+activity <- activity %>%
+  rename(date = activitydate) %>%
+  mutate(date = as_date(date, format = "%m/%d/%Y"))
+```
+**Calories**
+```{r Calories, message=FALSE, warning=FALSE, include=TRUE, paged.print=FALSE}
+calories_d$activityday <- as.Date(as.character(calories_d$activityday), "%m/%d/%Y")
+calories_h$activityhour <- as.POSIXct(as.character(calories_h$activityhour), "%m/%d/%Y %I:%M:%S %p", tz=Sys.timezone())
+calories_h$time <- format(calories_h$activityhour, format = "%H:%M:%S")
+calories_h$date <- format(calories_h$activityhour, format = "%m/%d/%y")
+```
+**Heart rate**
+```{r Heart rate, echo=TRUE, message=FALSE, warning=FALSE, include=TRUE, paged.print=FALSE}
+heart_rate$time <- as.POSIXct(as.character(heart_rate$time), "%m/%d/%Y %I:%M:%S %p", tz=Sys.timezone())
+
+```
+**Intensities**
+```{r Intensities, message=FALSE, warning=FALSE, paged.print=FALSE, include=TRUE}
+intensities_d$activityday <- as.Date(as.character(intensities_d$activityday), "%m/%d/%Y")
+intensities_h$activityhour <- as.POSIXct(as.character(intensities_h$activityhour), "%m/%d/%Y %I:%M:%S %p", tz=Sys.timezone())
+intensities_d$time <- format(intensities_d$activityhour, format = "%H:%M:%S")
+intensities_d$date <- format(intensities_d$activityhour, format = "%m/%d/%y")
+```
+**Sleep**
+```{r Sleep, message=FALSE, warning=FALSE, paged.print=FALSE, include=TRUE}
+sleep_d <- sleep_d %>%
+  rename(date = sleepday) %>%
+  mutate(date = as_date(date,format ="%m/%d/%Y %I:%M:%S %p" , tz=Sys.timezone()))
+```
+**Steps**
+```{r Steps, message=FALSE, warning=FALSE, paged.print=FALSE, include=TRUE}
+steps_d$activityday <- as.Date(as.character(steps_d$activityday), "%m/%d/%Y")
+steps_h$activityhour <- as.POSIXct(as.character(steps_h$activityhour), "%m/%d/%Y %I:%M:%S %p", tz=Sys.timezone())
+```
+**Weight**
+```{r Weight, message=FALSE, warning=FALSE, paged.print=FALSE, include=TRUE}
+weight$date <- as_datetime(as.character(weight$date), "%m/%d/%Y %I:%M:%S %p", tz=Sys.timezone())
+
+```
+
+## 4. Process Phase
+
+### 4.1 Scratching the serface
+
+Here we will take a quick peek into the data.
+
+- **First we will see how many users did share their info in each dataset**:
+```{r}
+n_unique(activity$id)   # 33
+n_unique(heart_rate$id) # only 14
+n_unique(weight$id) # only 8
+n_unique(sleep_d$id) # 24
+```
+- **The period span the data collected.**
+```{r}
+n_unique(activity$date) # 31 days period
+
+```
+- **We will make a quick summary to explore the Data.**
+```{r}
+calories_d %>% select(calories) %>% summary() # average calories is 2304
+intensities_d %>% select(sedentaryminutes, lightlyactiveminutes, fairlyactiveminutes , veryactiveminutes) %>% summary() 
+# avg seated time is 991.2 min and total avg activity is 227.5 min
+steps_d %>% select(steptotal) %>% summary() # avg number of steps is 7638 also there people with 0 steps a day ?!
+n_steps <- steps_d %>% group_by(id) %>% summarise(sumsteps = sum(steptotal == 0)) # there are people with up to 14 days with no steps at all Most likely the device was turned off that period !
+head(n_steps)
+sleep_d %>% select(totalsleeprecords, totalminutesasleep, totaltimeinbed) %>% summary() #avg sleep time 419.2 avg time in bed 458.5
+
+```
+
+After summarizing the data we can have a little bit deeper observation:
+
+- Average daily calories is 2304 which is acceptable and above the ideal amount which is 2000 calories.
+- Average time spent seating very high indicating a very high risk (above 11 hours).
+
+- The average number of steps a day is moderate which needs to be increased to 10.000 step/day also some users have 0 steps in a day which indicate that the device was not working that day witch limits the data credibility.
+
+- Average sleep time is a bit low that can cause a lot of health problems, although the number of hours of sleeping can differ from person to person it is recommended to sleep 8 hours a day.
+
+## 5. Analysis Phase
+### 5.1 Type of users per activity level
+
+since we don't have any demographic variables from our sample we want to determine the type of users with the data we have. We can classify the users by activity considering the daily amount of steps. We can categorize users as follows:
+- Sedentary - Less than 5000 steps a day.
+- Lightly active - Between 5000 and 7499 steps a day.
+- Fairly active - Between 7500 and 9999 steps a day.
+- Very active - More than 10000 steps a day.
+
+Classification has been made per the following article [10000steps.org](https://www.10000steps.org.au/articles/counting-steps/)
+
+First we're going to merge `sleep_d` and `activity` data set to see any correlation between the two.
+
+```{r Mergin Daily sleep and activity data set}
+activity_sleep_d <- merge(activity, sleep_d, by=c("date","id"))
+glimpse(activity_sleep_d)
+
+```
+
+Then we will calculate the daily steps average by user.
+
+```{r Calculate avg daily steps per users}
+daily_avg_steps <- activity_sleep_d %>% group_by(id) %>%
+  summarise(avg_daily_steps = mean(totalsteps), avg_daily_sleep = mean(totalminutesasleep), avg_daily_calories = mean(calories))
+head(daily_avg_steps)
+```
+
+We will now classify our users by the daily average steps.
+
+```{r Classify users according to avg steps}
+daily_avg_steps <- daily_avg_steps %>%
+  mutate(user_type = case_when(
+    avg_daily_steps < 5000 ~ "sedentary",
+    avg_daily_steps >= 5000 & avg_daily_steps < 7499 ~ "lightly active", 
+    avg_daily_steps >= 7500 & avg_daily_steps < 9999 ~ "fairly active", 
+    avg_daily_steps >= 10000 ~ "very active"
+  ))
+head(daily_avg_steps)
+```
+
+We will try to make these categories as percentages to better represent them in graph
+
+```{r Making it a percentage}
+
+users_type_percent <- daily_avg_steps %>%
+  group_by(user_type) %>%
+  summarize(count = n()) %>%
+  mutate(percentage = count / sum(count) * 100)
+head(users_type_percent)
+```
+
+Below we can see that users are fairly distributed by their activity considering the daily amount of steps. We can determine that based on users activity all kind of users wear smart-devices.
+
+```{r visualizing}
+ggplot(users_type_percent, aes(x = "", y = percentage, fill = user_type)) +
+  geom_bar(width = 1, stat = "identity", color="white") +
+  coord_polar("y", start = 0) +
+  ggtitle("User Types distribution") +
+  theme_void() +
+  scale_fill_brewer(palette = "Set1") +
+  geom_text(aes(label = round(percentage)),position = position_stack(vjust = 0.5)) +
+  scale_fill_manual(values = c("#F88379","#F89880", "#FFB6C1", "#FFC0CB")) 
+```
+
+### 5.2 Total number of steps a day VS Calories a day
+
+```{r visualizing calories vs steps a day}
+ggplot(activity_sleep_d, aes(x = totalsteps, y=calories)) + geom_point(color="#F88379") + geom_smooth(color="#8A2BE2"	) + labs(title="Daily Steps vs. Daily Calories")
+
+```
+
+I see positive correlation here between Total Steps and Calories, which is obvious:
+
+- the more active we are, the more calories we burn.
+
+## 5.3 Steps and minutes asleep per weekday 
+
+Here we want to know now what days of the week are the users more active and also what days of the week users sleep more. We will also verify if the users walk the recommended amount of steps and have the recommended amount of sleep.
+
+Below we are calculating the weekdays based on our column date. We are also calculating the average steps walked and minutes slept per weekday.
+
+```{r  labeling each day of the week}
+weekday_steps_sleep <- activity_sleep_d %>%
+  mutate(weekday = weekdays(date))
+
+weekday_steps_sleep$weekday <-ordered(weekday_steps_sleep$weekday, levels=c("Monday", "Tuesday", "Wednesday", "Thursday",
+                                                                            "Friday", "Saturday", "Sunday"))
+
+weekday_steps_sleep <-weekday_steps_sleep%>%
+  group_by(weekday) %>%
+  summarize (daily_steps = mean(totalsteps), daily_sleep = mean(totalminutesasleep))
+
+head(weekday_steps_sleep)
+
+
+```
+
+```{r visualization}
+ggplot(weekday_steps_sleep,aes(x=weekday,y=daily_steps)) + geom_col(fill="#D8BFD8") + geom_hline(yintercept = 7500) +
+  labs(title = "Daily steps per weekday", x= "", y = "") +
+  theme(axis.text.x = element_text(angle = 45,vjust = 0.5, hjust = 1))
+
+ggplot(weekday_steps_sleep, aes(x=weekday, y=daily_sleep)) + geom_col(fill = "#E0BFB8") + geom_hline(yintercept = 480) + labs (title = "Daily amount of sleeping per weekday", x= "", y = "")
+
+```
+
+In the graphs above we can determine the following:
+
+- Users walk daily the recommended amount of steps of 7500 besides Sunday's.
+
+- Users don't sleep the recommended amount of minutes/ hours - 8 hours.
+
+### 5.4 Hourly steps throughout the day
+
+we dive deeper to know which hours of the day are the most active
+
+```{r}
+steps_h <- steps_h %>%
+  separate(activityhour, into = c("date", "time"), sep= " ") %>%
+  mutate(date = ymd(date)) 
+head(steps_h)
+```
+
+```{r}
+steps_h %>%
+  group_by(time) %>%
+  summarize(average_steps = mean(steptotal)) %>%
+  ggplot() +
+  geom_col(mapping = aes(x=time, y = average_steps, fill = average_steps)) + 
+  labs(title = "Hourly steps throughout the day", x="", y="") + 
+  scale_fill_gradient(low = "#ffe6ea", high = "#ff6680")+
+  theme(axis.text.x = element_text(angle = 90))
+```
+
+So 10 pm to 5 am is the period with least activity most likely it is the sleeping time, the intensity of activity start to increase until it reach a pick between 5 pm and 6 pm after work which may indicate the time where users go to gym.
+
+## 6. Conclusion (Act Phase)
+
+Bellabeat's mission is to empower women by providing them with the data to discover themselves.
+
+In order for us to respond to our business task and help Bellabeat on their mission, based on our results, I would advice to use own tracking data for further analysis. Datasets used have a small sample and can be biased since we didn't have any demographic details of users. Knowing that our main target are young and adult women I would encourage to continue finding trends to be able to create a marketing strategy focused on them.
+
+That being said we can still make some advises based on the data and analysis we made:
+
+- We classified users into 4 categories and saw that the average of users walk more than 7,500 steps daily besides Sundays. We can encourage customers to reach at least daily recommended steps by CDC - 8.000 **sending them alarms** if they haven't reached the steps and **creating also posts on our app explaining the benefits of reaching that goal**. As CDC explains the more steps you walk the lower is the mortality rate. We also saw a positive correlation between steps and calories.
+
+- Based on our results we can see that users sleep less than 8 hours a day. They could **set up a desired time to go to sleep and receive a notification minutes before to prepare to sleep**. Also offer helpful resources to help customers sleep - ex. breathing advises, podcast with relaxing music, sleep techniques etc.
+
+- We might also try to increase wearing time since people not wearing the devices might create gaps in data collecting and might lead to bad judgments for both users and the company so maybe **decrease the device size and making it lighter** and **make it more stylish in different colors and shapes** also **making the device water proof** might help increase the wearing time and hence a better data collection.
